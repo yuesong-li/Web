@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- 
+Author Mark Powell
+This is the first page that a user will come to, will ask the user for a username and password and then forward them 
+to the login.jsp to check the details
+ -->
+<html>
+<head>
+<link REL="StyleSheet" TYPE="text/css" HREF="css/style.css"> 
+</head>
+ <body>
+ <div class="divTopBar">
+  <div align="center"><img alt="Smart House" src="images/smartHouseLogo.jpg">
+  </div>
+</div>
+ <form action="login.jsp" method="post" align="center">
+ <h3>Smart House Login</h3>
+ Login:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="login"><br>
+ Password: <input type="password" name="password"><br>
+ <input type=submit value="Login">
+ </form>
+ </body>
+ </html>
