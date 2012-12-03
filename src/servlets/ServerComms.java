@@ -19,8 +19,8 @@ import comms.Client;
 public class ServerComms extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	Client client = new Client();
-	String newState = "";
+	Client client;// = new Client();
+	String devicesAndStates = "";
 	boolean runOnce = false;
 
 	/**
@@ -34,11 +34,9 @@ public class ServerComms extends HttpServlet {
 	@Override
 	public void init() throws ServletException {// run only once
 		System.out.println("init()");
-		client.connectFromServlet();// Connect to the server
-		newState = client.getDeviceState("light:on/off");// Get state on startup
-		String str[] = newState.split(":");// Split to [device:]and[state]
-		newState = str[1];
-		System.out.println("init()" + newState);
+		client = new Client();
+		devicesAndStates = client.getDeviceState();// Get state on startup
+		System.out.println("init()" + devicesAndStates);
 	}
 
 	/**
@@ -58,42 +56,45 @@ public class ServerComms extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		// System.out.println("doPost");
 		PrintWriter writer = response.getWriter();
-		String buttonValue = request.getParameter("lightStateButtonValue");
+		String buttonValue = request.getParameter("button");
 		System.out.println("bv = " + buttonValue);
 		if (runOnce == false) {
 			// System.out.println("runOnce");
-			request.setAttribute("newLightState", newState);
+			request.setAttribute("deviceStates", devicesAndStates);
 			runOnce = true;// Set to true so this if only runs once
 		}
 		if (buttonValue != null) {// Make sure there is a value to get
-			if (buttonValue.equals("on")) {
-				// System.out.println("turn light on");
-				client.turnOn();
-				// Just to be sure
-				buttonValue = client.getDeviceState("light:on/off");// Get
-																	// current
-																	// state
-				String str[] = buttonValue.split(":");// Split to
-														// [device:]and[state]
-				buttonValue = str[1];
-				// System.out.println("bv = "+buttonValue);
-				request.setAttribute("newLightState", buttonValue);
-			}
-			if (buttonValue.equals("off")) {
-				// System.out.println("off");
-				client.turnOff();
-				buttonValue = client.getDeviceState("light:on/off");// Get
-																	// current
-																	// state
-				String str[] = buttonValue.split(":");// Split to
-														// [device:]and[state]
-				buttonValue = str[1];
-				// System.out.println("bv = "+buttonValue);
-				request.setAttribute("newLightState", buttonValue);
-			}
+
+			client.sendCommand(buttonValue);
+
+			// if (buttonValue.equals("lightIn:on")) {
+			// // System.out.println("turn light on");
+			// client.turnOn();
+			// // Just to be sure
+			// // buttonValue = client.getDeviceState("light:on/off");// Get
+			// // current
+			// // state
+			// String str[] = buttonValue.split(":");// Split to
+			// // [device:]and[state]
+			// buttonValue = str[1];
+			// // System.out.println("bv = "+buttonValue);
+			// request.setAttribute("newLightState", buttonValue);
+			// }
+			// if (buttonValue.equals("lightIn:off")) {
+			// // System.out.println("off");
+			// client.turnOff();
+			// // buttonValue = client.getDeviceState("light:on/off");// Get
+			// // current
+			// // state
+			// String str[] = buttonValue.split(":");// Split to
+			// // [device:]and[state]
+			// buttonValue = str[1];
+			// // System.out.println("bv = "+buttonValue);
+			// request.setAttribute("newLightState", buttonValue);
+			// }
 		}
 		RequestDispatcher rd = request
-				.getRequestDispatcher("changeDeviceState.jsp");
+				.getRequestDispatcher("interfaces.jsp");
 		rd.forward(request, response);
 	}
 
