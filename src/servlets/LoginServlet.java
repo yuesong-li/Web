@@ -19,6 +19,7 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Client client = new Client();
 	ServerComms com;
+        // Paria
        
     /**
      * @see HttpServlet#HttpServlet()
