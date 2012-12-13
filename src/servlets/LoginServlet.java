@@ -42,12 +42,25 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String userLevel = "";
 		System.out.println("here1");
 		client.connectFromServlet();
-		client.login(username, password);
-		System.out.println("here2");
-		request.setAttribute("client", client);
-		RequestDispatcher rd = request.getRequestDispatcher("ServerComms");
-		rd.forward(request, response);
+		userLevel = client.login(username, password);
+		System.out.println("userLevel =" + userLevel);
+		if(userLevel.contains("high")){//The user is validated - goto application for adult users
+			client.setAdultUser(true);
+			request.setAttribute("client", client);
+			RequestDispatcher rd = request.getRequestDispatcher("ServerComms");
+			rd.forward(request, response);
+		}else if(userLevel.contains("low")){
+			client.setAdultUser(false);
+			request.setAttribute("client", client);
+			RequestDispatcher rd = request.getRequestDispatcher("ServerComms");
+			rd.forward(request, response);
+		}else{
+			RequestDispatcher rd = request.getRequestDispatcher("index.html");
+			rd.forward(request, response);
+		}
+		
 	}
 }

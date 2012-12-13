@@ -22,7 +22,7 @@ public class ServerComms extends HttpServlet {
 	Client client;// = new Client();
 	String devicesAndStates = "";
 	boolean runOnce = false;
-
+	boolean adultUser = false; 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -57,6 +57,8 @@ public class ServerComms extends HttpServlet {
 		// System.out.println("doPost");
 		System.out.println("init()");
 		client = (Client) request.getAttribute("client");
+		//Check if the user is adult or child by accessing the client object received 
+		adultUser = client.isAdultUser();
 		devicesAndStates = client.getDeviceState();
 		System.out.println("device & states: " + devicesAndStates);
 //		String str[] = devicesAndStates.split(",");// Split to [device:]and[state]
