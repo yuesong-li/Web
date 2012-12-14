@@ -49,8 +49,10 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("userLevel =" + userLevel);
 		if(userLevel.contains("high")){//The user is validated - goto application for adult users
 			client.setAdultUser(true);
-			request.setAttribute("client", client);
-			RequestDispatcher rd = request.getRequestDispatcher("ServerComms");
+			//request.setAttribute("username", username);
+			request.setAttribute("client", client);//At present this is not used when sending to frameset
+			//Might need to change frameset to .jsp??????????????????? /Mark
+			RequestDispatcher rd = request.getRequestDispatcher("main_frame.html");
 			rd.forward(request, response);
 		}else if(userLevel.contains("low")){
 			client.setAdultUser(false);

@@ -56,9 +56,11 @@ public class ServerComms extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		// System.out.println("doPost");
 		System.out.println("init()");
-		client = (Client) request.getAttribute("client");
+		client = new Client();
+		client.connectFromServlet();
+		//client = (Client) request.getAttribute("client");
 		//Check if the user is adult or child by accessing the client object received 
-		adultUser = client.isAdultUser();
+		//adultUser = client.isAdultUser();
 		devicesAndStates = client.getDeviceState();
 		System.out.println("device & states: " + devicesAndStates);
 //		String str[] = devicesAndStates.split(",");// Split to [device:]and[state]

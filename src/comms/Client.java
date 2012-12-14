@@ -32,7 +32,7 @@ public class Client {
 
 	public void connectFromServlet() {
 		try {
-			echoSocket = new Socket("194.47.46.135", 8888);//Laptop
+			echoSocket = new Socket("194.47.41.235", 8888);//Laptop
 			//echoSocket = new Socket("194.47.46.204", 8888);
 			out = new PrintWriter(echoSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(
@@ -85,6 +85,7 @@ public class Client {
 
 	public String getDeviceState() {
 		System.out.println("here it is");
+		out.println("AnotherPerson:AnotherPerson");
 		String stateFromServer = "";
 		// out.println(data);// send e.g.light:on/off
 		try {
