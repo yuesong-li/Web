@@ -10,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import comms.Client;
 
 /**
@@ -54,15 +56,21 @@ public class ServerComms extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// System.out.println("doPost");
-		System.out.println("init()");
-		client = new Client();
-		client.connectFromServlet();
+		System.out.println("doPost");
+		PrintWriter writer = response.getWriter();
+		String buttonValue = request.getParameter("changeDeviceState");
+		String pageToLoad = request.getParameter("pageToUpdate");
+		
+		System.out.println("bv = " + buttonValue);
+		HttpSession session = request.getSession(true);
+		client = (Client) session.getAttribute("client");
+		client.changeState(buttonValue);//Send e.g. lightIn:off
+		//client = new Client();
+		//client.connectFromServlet();
 		//client = (Client) request.getAttribute("client");
 		//Check if the user is adult or child by accessing the client object received 
 		//adultUser = client.isAdultUser();
-		devicesAndStates = client.getDeviceState();
-		System.out.println("device & states: " + devicesAndStates);
+		
 //		String str[] = devicesAndStates.split(",");// Split to [device:]and[state]
 //		String str1[] = str[0].split(":");
 //		String lightInState = str1[1];
@@ -76,18 +84,18 @@ public class ServerComms extends HttpServlet {
 //		String str4[] = str[3].split(":");
 //		String heatingState = str4[1];
 //		String heating = str4[0];
-		PrintWriter writer = response.getWriter();
-		String buttonValue = request.getParameter("button");
-		System.out.println("bv = " + buttonValue);
-		if (runOnce == false) {
-			// System.out.println("runOnce");
-			request.setAttribute("deviceStates", devicesAndStates);
-			runOnce = true;// Set to true so this if only runs once
-		}
-		if (buttonValue != null) {// Make sure there is a value to get
-
-			client.sendCommand(buttonValue);
-			System.out.println("bv = " + buttonValue+"yeeeeeeeeeeeeeeeyyyy");
+		//PrintWriter writer = response.getWriter();
+		//String buttonValue = request.getParameter("button");
+		//System.out.println("bv = " + buttonValue);
+//		if (runOnce == false) {
+//			// System.out.println("runOnce");
+//			request.setAttribute("deviceStates", devicesAndStates);
+//			runOnce = true;// Set to true so this if only runs once
+//		}
+//		if (buttonValue != null) {// Make sure there is a value to get
+//
+//			devicesAndStates = client.getDeviceState();
+//			System.out.println("device & states: " + devicesAndStates);
 			//request.setAttribute("deviceStates", devicesAndStates);
 			// if (buttonValue.equals("lightIn:on")) {
 			// // System.out.println("turn light on");
@@ -114,9 +122,12 @@ public class ServerComms extends HttpServlet {
 			// // System.out.println("bv = "+buttonValue);
 			// request.setAttribute("newLightState", buttonValue);
 			// }
-		}
-		RequestDispatcher rd = request
-				.getRequestDispatcher("interfaces.jsp");
+		//}
+		String devicesAndStates = "reload"+client.listen();
+		System.out.println("from serveComms"+devicesAndStates);
+		
+		request.setAttribute("devicesAndStates", devicesAndStates);
+		RequestDispatcher rd = request.getRequestDispatcher(pageToLoad);
 		rd.forward(request, response);
 	}
 

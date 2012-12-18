@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ page import="comms.Client"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- Author Version 1.0 Mark Powell 25/10/2012-->
 <html>
@@ -12,38 +13,57 @@
 <body>
 
 	<%
-		String newState = "";
-		if (request.getAttribute("newLightState") != null) {
-			newState = (String) request.getAttribute("newLightState");
+	String devicesAndStates = "";
+	System.out.println("got to indooerLight");
+	//Ignore this below if it is a redirect from ServerComms
+	if(request.getAttribute("devicesAndStates") != null){
+		System.out.println("got to indooerLight first if");
+		devicesAndStates = (String) request.getAttribute("devicesAndStates");
+		if(devicesAndStates.contains("reload") ){
+			System.out.println(" indoorLight second if");
+		    //out.println(" devicesAndStates is "+devicesAndStates);
 		}
-		//out.println(" new state is "+newState);
+	}else{
+		System.out.println(" indoorLight else");
+	    Client client = new Client();
+	    client = (Client) session.getAttribute("client");
+	    devicesAndStates = client.getDeviceState();
+	    
+	    
+	    //out.println("indoorLight.jsp -  devicesAndStates is "+devicesAndStates);
+	}
+	
 	%>
 
 	
 	<div class="lightImages">
 		<%
-			if (newState.equals("on")) {
-
-				out.println("<div align=\"center\"><img src=\"images/lightBulbOnSmall.jpg\" width=\"151\" height=\"224\">");
+		if (devicesAndStates.contains("lightIn:on")) {
+			
+				out.println("<div align=\"center\"><img src=\"images/indoor-lamp-on-big.jpg\" >");
 			} else {
-				out.println("<div align=\"center\"><img src=\"images/lightBulbOffSmall.jpg\" width=\"151\" height=\"224\">");
+				out.println("<div align=\"center\"><img src=\"images/indoor-lamp-off-big.jpg\" >");
 			}
 		%>
 	</div>
 	<div class="OnOffBbuttonContainer" align="center">
-		<table width="200" border="0">
+		<table width="180" border="0">
 			<tr>
-				<td align="center"><form name="turnLightOn" method="post"
+				<td align="center"><form name="turnIndoorLightOn" method="post"
 						action="ServerComms">
-						<label> <input name="lightStateButtonValue" type="submit"
-							id="lightOnButton" value="on" style="height: 35px; width: 60px">
+						<input type = "hidden" name="changeDeviceState" value="lightIn:on">
+						<input type = "hidden" name="pageToUpdate" value="indoorLight.jsp">
+						<label> <input name="ButtonValue" type="submit"
+							id="IndoorlightOnButton" value="On" style="height: 35px; width: 60px">
 						</label>
 					</form>
 				</td>
-				<td align="center"><form name="turnLightOff" method="post"
+				<td align="center"><form name="turnIndoorLightOff" method="post"
 						action="ServerComms">
-						<label> <input name="lightStateButtonValue" type="submit"
-							id="lightOffButton" value="off" style="height: 35px; width: 60px">>
+						<input type = "hidden" name="changeDeviceState" value="lightIn:off">
+						<input type = "hidden" name="pageToUpdate" value="indoorLight.jsp">
+						<label> <input name="ButtonValue" type="submit"
+							id="lightOffButton" value="Off" style="height: 35px; width: 60px">
 						</label>
 					</form>
 				</td>

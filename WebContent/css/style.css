@@ -2,12 +2,11 @@
 
 /*Top bar for logo*/
 .divTopBar {
-	   margin-left:auto;
-	   margin-right:auto;
-       color:#fff;
-       padding:15px;
-       border-bottom:5px solid #E11432;
-       margin-bottom:15px;
+	   border-bottom:5px solid #E11432;
+	    padding:0px;
+	    border-left:0px;
+	    margin-left:0px;
+       
      }
 	 
 .lightImages {
@@ -53,3 +52,35 @@ body {
    font-style:italic;
    font-family:times,serif;
  } 
+ 
+  /*control panel*/
+  
+ #WhiteBackgroundRedText
+{
+background-color:#D6D6D6;
+color:#E11432;
+font-weight:bold;
+border:thick;
+border-color:black; 
+margin-bottom: 0; 
+padding-bottom: 0;
+margin-top: 0; 
+padding-top: 0; 
+}
+ #RedBackgroundWhiteText
+{
+background-color:#E11432;
+color:white;
+font-weight:bold;
+border:thick;
+border-color:black; 
+margin-bottom: 0; 
+padding-bottom: 0;
+margin-top: 0; 
+padding-top: 0; 
+}
+#borderRight
+{
+	border-right:5px solid #E11432;
+}
+ 

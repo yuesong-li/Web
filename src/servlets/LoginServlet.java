@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import comms.Client;
 
@@ -43,23 +44,24 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String userLevel = "";
-		System.out.println("here1");
 		client.connectFromServlet();
 		userLevel = client.login(username, password);
+		//There is a string of states waiting to be read so we get it
+		client.readInitialStatesFromServerStartUpString();//The object now holds this and we send it with the session
 		System.out.println("userLevel =" + userLevel);
 		if(userLevel.contains("high")){//The user is validated - goto application for adult users
 			client.setAdultUser(true);
 			//request.setAttribute("username", username);
-			request.setAttribute("client", client);//At present this is not used when sending to frameset
-			//Might need to change frameset to .jsp??????????????????? /Mark
-			RequestDispatcher rd = request.getRequestDispatcher("main_frame.html");
+			HttpSession session = request.getSession(true);
+			session.setAttribute("client", client);//Add the client object to the session
+			RequestDispatcher rd = request.getRequestDispatcher("main_frame.jsp");
 			rd.forward(request, response);
-		}else if(userLevel.contains("low")){
+		}else if(userLevel.contains("low")){//Not implemented yet
 			client.setAdultUser(false);
 			request.setAttribute("client", client);
 			RequestDispatcher rd = request.getRequestDispatcher("ServerComms");
 			rd.forward(request, response);
-		}else{
+		}else{//Try and login again fool!
 			RequestDispatcher rd = request.getRequestDispatcher("index.html");
 			rd.forward(request, response);
 		}
