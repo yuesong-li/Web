@@ -9,7 +9,7 @@
 
 <frameset cols="200,*" frameborder="0" border="0" framespacing="0">
 	<frame name="menu" src="controlPanel.jsp" marginheight="0" marginwidth="0" scrolling="auto" noresize>
-<frameset rows="230,*" frameborder="0" border="0" framespacing="0">
+<frameset rows="180,*" frameborder="0" border="0" framespacing="0">
   	<frame name="topNav" src="top_bar.html">
 	<frame name="content" src="content.html" marginheight="0" marginwidth="0" scrolling="auto" noresize>
 </frameset>

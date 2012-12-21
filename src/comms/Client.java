@@ -46,7 +46,7 @@ public class Client {
 
 	public void connectFromServlet() {
 		try {
-			//echoSocket = new Socket("194.47.41.235", 8888);//Laptop
+			//echoSocket = new Socket("194.47.32.178", 8888);//Laptop
 			echoSocket = new Socket("127.0.0.1", 8888);
 			out = new PrintWriter(echoSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(

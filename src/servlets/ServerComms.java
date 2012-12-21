@@ -127,6 +127,7 @@ public class ServerComms extends HttpServlet {
 		System.out.println("from serveComms"+devicesAndStates);
 		
 		request.setAttribute("devicesAndStates", devicesAndStates);
+		
 		RequestDispatcher rd = request.getRequestDispatcher(pageToLoad);
 		rd.forward(request, response);
 	}

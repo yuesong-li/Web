@@ -2,12 +2,16 @@
 
 /*Top bar for logo*/
 .divTopBar {
-	   border-bottom:5px solid #E11432;
+	    border-bottom:5px solid #E11432;
 	    padding:0px;
+	    margin-bottom: 0px;
+	    margin-top: 0px;
 	    border-left:0px;
 	    margin-left:0px;
-       
-     }
+	    
+   }
+   
+
 	 
 .lightImages {
 	   margin-left:auto;
@@ -82,5 +86,18 @@ padding-top: 0;
 #borderRight
 {
 	border-right:5px solid #E11432;
+	border-bottom:5px solid #E11432;
+}
+ #borderTemp
+{
+background-color:#D6D6D6;
+color:black;
+font-weight:bold;
+border-style:double;
+border-color:black;
+margin-bottom: 0; 
+padding-bottom: 0;
+margin-top: 0; 
+padding-top: 0; 
 }
  
